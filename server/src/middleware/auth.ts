@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { supabaseAdmin } from '../config/supabase.js';
+import { supabaseAuth } from '../config/supabase.js';
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -16,7 +16,7 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
     }
 
     // Verify token with Supabase
-    const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
+    const { data: { user }, error } = await supabaseAuth.auth.getUser(token);
 
     if (error || !user) {
       res.status(401).json({ error: 'Unauthorized: Invalid token' });
